@@ -1,4 +1,5 @@
-$(document).ready(function() {
+//Creates accordion menu
+function accordion() { 
 	
 	//Calculates the initial width of the window and applies it to the accordion menu container
 	var window_width = $(window).width(); 
@@ -35,7 +36,7 @@ $(document).ready(function() {
 	    
 	    //Sets the height of inside-content
 	    $('.inside-content').height(content_height)
-	    					.css({backgroundColor:"green"});
+	    					.css({backgroundColor:"gray"});
 	    
 	    //Sets the height of the paragraph inside the accordion menu					
 	    $('.inside-content p').height(content_height);
@@ -43,23 +44,47 @@ $(document).ready(function() {
 	    //Determines if the clicked item is visible
 	    var selfClick = $(this).find('.inside-content').is(':visible');
 	    
-	    //If content is not visible make it visible
+	    //Close item if another is open
 	    if(!selfClick) {
+	    
 	      $(this)
 	        .parent()
 	        .find('.inside-content:visible')
 	        .slideToggle();
+	        
 	    }
 	    
-	    //If content is visible make it display none
+	    //Accordion menu
 	    $(this)
+	      .toggleClass('show')
 	      .find('.inside-content')
 	      .stop(true, true)
 	      .slideToggle();
-	      
+	    
+	    //Hide or show the rest of the menu when clicked
+	    $('#accordion ul > li').not('.show').toggle();
+	    
+	    //If self click show item
+	    if(selfClick) {
+		    
+		    $(this).show();
+		    
+		    //Determines the position to snap to top
+		    var snap_top = $(this);
+		    var position = snap_top.position();
+		    
+		    $('html, body').animate({ scrollTop: position.top }, 'slow');
+		    
+	    }
+	    
     });
-    
-    //Listens to the event of window resize
+	
+}
+
+//Listens to when the window is resized for the content inside the accordion menu
+function window_resize() { 
+	
+	//Listens to the event of window resize
     $(window).resize(function() {
     	
     	//Determines the width of the window
@@ -87,5 +112,15 @@ $(document).ready(function() {
     	$('#accordion ul > li').parent().find('.inside-content:visible p').height(content_height)
     	
     });
+	
+}
+
+
+
+$(document).ready(function() {
+	
+	accordion();
+	
+	window_resize();
 				
 });

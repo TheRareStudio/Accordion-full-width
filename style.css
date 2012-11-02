@@ -30,3 +30,7 @@ body {
 .inside-content {
 	padding: 10px;
 }
+
+.show {
+	visibility: visible;
+}
